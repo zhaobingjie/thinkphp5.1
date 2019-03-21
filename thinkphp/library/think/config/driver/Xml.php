@@ -9,19 +9,32 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP5!';
-});
-//Route::get('annotation/:str','index/annotation');
+namespace think\config\driver;
 
-//快捷路由
-Route::controller('blog','index/Blog');
-Route::controller('user','index/User');
+class Xml
+{
+    protected $config;
 
-Route::get('hello/:name', 'index/hello');
+    public function __construct($config)
+    {
+        $this->config = $config;
+    }
 
-Route::get('userinfo/:id','index/User/info')->cache(3600);//路由缓存
+    public function parse()
+    {
+        if (is_file($this->config)) {
+            $content = simplexml_load_file($this->config);
+        } else {
+            $content = simplexml_load_string($this->config);
+        }
 
-return [
+        $result = (array) $content;
+        foreach ($result as $key => $val) {
+            if (is_object($val)) {
+                $result[$key] = (array) $val;
+            }
+        }
 
-];
+        return $result;
+    }
+}

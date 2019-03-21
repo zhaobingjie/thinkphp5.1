@@ -9,19 +9,40 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP5!';
-});
-//Route::get('annotation/:str','index/annotation');
+namespace think\db;
 
-//快捷路由
-Route::controller('blog','index/Blog');
-Route::controller('user','index/User');
+class Expression
+{
+    /**
+     * 查询表达式
+     *
+     * @var string
+     */
+    protected $value;
 
-Route::get('hello/:name', 'index/hello');
+    /**
+     * 创建一个查询表达式
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function __construct($value)
+    {
+        $this->value = $value;
+    }
 
-Route::get('userinfo/:id','index/User/info')->cache(3600);//路由缓存
+    /**
+     * 获取表达式
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
 
-return [
-
-];
+    public function __toString()
+    {
+        return (string) $this->value;
+    }
+}

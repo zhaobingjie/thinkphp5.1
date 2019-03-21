@@ -9,19 +9,25 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP5!';
-});
-//Route::get('annotation/:str','index/annotation');
+namespace think\facade;
 
-//快捷路由
-Route::controller('blog','index/Blog');
-Route::controller('user','index/User');
+use think\Facade;
 
-Route::get('hello/:name', 'index/hello');
-
-Route::get('userinfo/:id','index/User/info')->cache(3600);//路由缓存
-
-return [
-
-];
+/**
+ * @see \think\Url
+ * @mixin \think\Url
+ * @method string build(string $url = '', mixed $vars = '', mixed $suffix = true, mixed $domain = false) static URL生成 支持路由反射
+ * @method void root(string $root) static 指定当前生成URL地址的root
+ */
+class Url extends Facade
+{
+    /**
+     * 获取当前Facade对应类名（或者已经绑定的容器对象标识）
+     * @access protected
+     * @return string
+     */
+    protected static function getFacadeClass()
+    {
+        return 'url';
+    }
+}

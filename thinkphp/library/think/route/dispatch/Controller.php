@@ -9,19 +9,22 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP5!';
-});
-//Route::get('annotation/:str','index/annotation');
+namespace think\route\dispatch;
 
-//快捷路由
-Route::controller('blog','index/Blog');
-Route::controller('user','index/User');
+use think\route\Dispatch;
 
-Route::get('hello/:name', 'index/hello');
+class Controller extends Dispatch
+{
+    public function exec()
+    {
+        // 执行控制器的操作方法
+        $vars = array_merge($this->request->param(), $this->param);
 
-Route::get('userinfo/:id','index/User/info')->cache(3600);//路由缓存
+        return $this->app->action(
+            $this->dispatch, $vars,
+            $this->rule->getConfig('url_controller_layer'),
+            $this->rule->getConfig('controller_suffix')
+        );
+    }
 
-return [
-
-];
+}

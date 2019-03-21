@@ -9,19 +9,24 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP5!';
-});
-//Route::get('annotation/:str','index/annotation');
+namespace think\response;
 
-//快捷路由
-Route::controller('blog','index/Blog');
-Route::controller('user','index/User');
+use think\Response;
 
-Route::get('hello/:name', 'index/hello');
+class Jump extends Response
+{
+    protected $contentType = 'text/html';
 
-Route::get('userinfo/:id','index/User/info')->cache(3600);//路由缓存
-
-return [
-
-];
+    /**
+     * 处理数据
+     * @access protected
+     * @param  mixed $data 要处理的数据
+     * @return mixed
+     * @throws \Exception
+     */
+    protected function output($data)
+    {
+        $data = $this->app['view']->fetch($this->options['jump_template'], $data);
+        return $data;
+    }
+}

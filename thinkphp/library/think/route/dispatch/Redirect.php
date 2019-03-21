@@ -9,19 +9,15 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP5!';
-});
-//Route::get('annotation/:str','index/annotation');
+namespace think\route\dispatch;
 
-//快捷路由
-Route::controller('blog','index/Blog');
-Route::controller('user','index/User');
+use think\Response;
+use think\route\Dispatch;
 
-Route::get('hello/:name', 'index/hello');
-
-Route::get('userinfo/:id','index/User/info')->cache(3600);//路由缓存
-
-return [
-
-];
+class Redirect extends Dispatch
+{
+    public function exec()
+    {
+        return Response::create($this->dispatch, 'redirect')->code($this->code);
+    }
+}

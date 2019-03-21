@@ -9,19 +9,18 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP5!';
-});
-//Route::get('annotation/:str','index/annotation');
+namespace think\route\dispatch;
 
-//快捷路由
-Route::controller('blog','index/Blog');
-Route::controller('user','index/User');
+use think\Response;
+use think\route\Dispatch;
 
-Route::get('hello/:name', 'index/hello');
+class View extends Dispatch
+{
+    public function exec()
+    {
+        // 渲染模板输出
+        $vars = array_merge($this->request->param(), $this->param);
 
-Route::get('userinfo/:id','index/User/info')->cache(3600);//路由缓存
-
-return [
-
-];
+        return Response::create($this->dispatch, 'view')->assign($vars);
+    }
+}

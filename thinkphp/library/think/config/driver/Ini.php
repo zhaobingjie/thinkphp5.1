@@ -9,19 +9,23 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP5!';
-});
-//Route::get('annotation/:str','index/annotation');
+namespace think\config\driver;
 
-//快捷路由
-Route::controller('blog','index/Blog');
-Route::controller('user','index/User');
+class Ini
+{
+    protected $config;
 
-Route::get('hello/:name', 'index/hello');
+    public function __construct($config)
+    {
+        $this->config = $config;
+    }
 
-Route::get('userinfo/:id','index/User/info')->cache(3600);//路由缓存
-
-return [
-
-];
+    public function parse()
+    {
+        if (is_file($this->config)) {
+            return parse_ini_file($this->config, true);
+        } else {
+            return parse_ini_string($this->config, true);
+        }
+    }
+}
