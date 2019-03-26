@@ -1,6 +1,8 @@
 <?php
 namespace app\index\controller;
 use think\facade\Env;
+use think\Request;
+use think\Response;
 
 class Index
 {
@@ -33,5 +35,26 @@ class Index
      */
     public function annotation($str){
         return $str;
+    }
+
+    public function testr(Request $request){
+//        $data = array('aa','bb',array('cc','dd'));
+//        return json($data);
+        $data = $request->param();
+        dump($data);
+//        $str = 'Wellcome to China';
+//        return response($str);
+    }
+
+    public function testredirect(){
+        $data = array('name'=>'jack','age'=>18);
+        return redirect('/index/index/testr',$data);
+
+    }
+
+    public function testd(){
+        $path = ENV::get('root_path').'upload'.DIRECTORY_SEPARATOR;
+        $file = $path.'logo.jpg';
+        return download($file,'brand.jpg');
     }
 }
