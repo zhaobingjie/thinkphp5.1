@@ -1,10 +1,14 @@
 <?php
 namespace app\index\controller;
+use app\model\students;
+use app\model\score;
+use think\Controller;
 use think\facade\Env;
 use think\Request;
 use think\Response;
+use think\Db;
 
-class Index
+class Index extends Controller
 {
     public function index()
     {
@@ -56,5 +60,91 @@ class Index
         $path = ENV::get('root_path').'upload'.DIRECTORY_SEPARATOR;
         $file = $path.'logo.jpg';
         return download($file,'brand.jpg');
+    }
+
+    public function curd(Request $request){
+        include 'D:\project\test\application\model\students.php';
+//        $map = $request->param();
+//        dump($map);
+        $r = students::get_info(1);
+        dump($r);
+//        $r = students::listInfo();
+//        dump($r);
+//        $r = db('students')->where(array('uid'=>1))->find();
+//        dump($r);
+//        $r = db('students')->where(array('uid'=>1))->value('name');/// 返回某个字段的值
+//        dump($r);
+//        $r = db('students')->column('name','uid');/// 查询某一列的值可以用 // 指定id字段的值作为索引
+//        dump($r);
+//        $r = db('students')->column(['name','intro'],'uid');/// 查询某一列的值可以用 // 指定id字段的值作为索引
+//        dump($r);
+//        $data = array(
+//            'name' => 'sf',
+//            'age' => 23,
+//            'sex' => 1,
+//            'intro' => 'ewtaweta'
+//        );
+//        $r = students::add($data);
+//        dump($r);
+//        $data_arr = array(
+//            array(
+//                'name' => 'sf1',
+//                'age' => 23,
+//                'sex' => 1,
+//                'intro' => 'ewtaweta'
+//            ),
+//            array(
+//                'name' => 'sf2',
+//                'age' => 23,
+//                'sex' => 1,
+//                'intro' => 'ewtaweta'
+//            ),
+//            array(
+//                'name' => 'sf3',
+//                'age' => 23,
+//                'sex' => 1,
+//                'intro' => 'ewtaweta'
+//            ),
+//        );
+//        $r = students::multiAdd($data_arr);
+//        dump($r);
+//        $uid = 1;
+//        $data = array(
+//            'name' => 'LQjack',
+//            'intro' => '哈哈哈哈哈'
+//        );
+//        $r = students::edit($uid,$data);
+//        dump($r);
+//        Db::name('students')
+//            ->where('uid',1)
+//            ->inc('age')
+//            ->dec('hits',-3)
+//            ->exp('name','UPPER(name)')
+//            ->update();
+//        echo Db::name('students')
+//            ->where('uid',1)
+//            ->inc('age')
+//            ->dec('hits',-3)
+//            ->exp('name','UPPER(name)')
+//            ->fetchSql(true)//输出sql语句
+//            ->update();
+    }
+
+    public function tmodel(){
+        $score_model = new score();
+        $uid = 1;
+        $data = array(
+            'math' =>91,
+            'chinese' => '99',
+            'english' => '88',
+            'uid' => $uid,
+            'sports' => 100
+        );
+//        $res = $score_model->score_save($data);
+//        dump($res);
+        $res = $score_model->get_score($uid);
+        dump($res);
+//        $res = $score_model->del($uid);
+//        dump($res);
     }
 }
